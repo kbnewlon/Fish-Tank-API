@@ -27,7 +27,7 @@ app.use(express.json());
 // app.use(cors())
 
 app.use('/',allRoutes);
-app.get("/", (req, res) =>)
+// app.get("/", (req, res) =>)
 
 db.sequelize.sync({ force: false }).then(function() {
     app.listen(PORT, function() {
