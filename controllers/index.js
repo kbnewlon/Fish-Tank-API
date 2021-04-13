@@ -8,6 +8,6 @@ router.get("/", (req, res) => (
     res.send("welcome to my fishes!")
 ))
 
-router.use("/api/user", userRoutes);
+router.use("/api/users", userRoutes);
 
 module.exports = router
