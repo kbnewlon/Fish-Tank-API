@@ -3,7 +3,29 @@ const router = express.Router();
 const db = require('../models');
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const e = require("express");
 
+const checkAuthStatus = request => {
+    if (!request.headers.authorization) {
+        return false
+    }
+    //gets bearer token
+    const token = request.headers.authorization.split(" ")[1]
+    console.log(token);
+
+    //once the token is received jwt will verify it 
+    const loggedInUser = jwt.verify(token, 'secretString', (err, data) => {
+        if (err) {
+            return false
+        }
+        else {
+            return data
+        }
+    })
+    console.log(loggedInUser);
+    return loggedInUser
+
+}
 
 router.get("/", (req, res) => {
     db.User.findAll().then(dbUsers => {
@@ -43,6 +65,7 @@ router.post("/login", (req, res) => {
                 id: foundUser.id,
                 name: foundUser.name
             }
+            //creates unique token
             const token = jwt.sign(userTokenInfo, "secretString", { expiresIn: "2h" })
             res.status(200).send({ token: token })
         } else {
@@ -53,5 +76,15 @@ router.post("/login", (req, res) => {
         res.status(500).end();
     })
 })
+
+router.get("/secrets", (req, res) => {
+    const loggedInUser = checkAuthStatus(req);
+    console.log(loggedInUser);
+    if(!loggedInUser){
+        return res.status(401).send("invalid token")
+    }
+   res.status(200).send("valid token");
+
+});
 
 module.exports = router
