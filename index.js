@@ -7,7 +7,7 @@ require("dotenv").config();
 // =============================================================
 var app = express();
 var PORT = process.env.PORT || 8080;
-const cors = require('cors')
+// const cors = require('cors')
 var allRoutes = require('./controllers');
 
 // Requiring our models for syncing
@@ -27,7 +27,7 @@ app.use(express.json());
 // app.use(cors())
 
 app.use('/',allRoutes);
-// app.get("/", (req, res) =>)
+
 
 db.sequelize.sync({ force: false }).then(function() {
     app.listen(PORT, function() {
