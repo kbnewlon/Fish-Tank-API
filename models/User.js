@@ -1,21 +1,17 @@
 module.exports = function (sequelize, DataTypes) {
     var User = sequelize.define('User', {
-     //add properties here 
         name: DataTypes.STRING,
-        password: {
+        email: {
             type: DataTypes.STRING,
-            required: true,
-            validate: {
-                len: [8]
-            },
+            unique: true
         },
-        email: DataTypes.STRING,
-        unique: true
-
+        password: DataTypes.STRING
     });
 
     User.associate = function (models) {
         //add association here
+        User.hasMany(models.Tank);
+        User.hasMany(models.Fish);
     };
 
     return User;

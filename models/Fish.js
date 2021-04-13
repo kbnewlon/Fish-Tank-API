@@ -9,6 +9,8 @@ module.exports = function (sequelize, DataTypes) {
 
     Fish.associate = function (models) {
         //add association here
+        Fish.belongsTo(models.Tank);
+        Fish.belongsTo(models.User);
     }
 
     return Fish;

@@ -7,6 +7,8 @@ module.exports = function (sequelize, DataTypes) {
 
     Tank.associate = function (models) {
         //add association here
+        Tank.hasMany(models.Fish);
+        Tank.belongsTo(models.User);
     }
 
     return Tank;
