@@ -7,7 +7,7 @@ require("dotenv").config();
 // =============================================================
 var app = express();
 var PORT = process.env.PORT || 8080;
-// const cors = require('cors')
+const cors = require('cors')
 var allRoutes = require('./controllers');
 
 // Requiring our models for syncing
@@ -23,14 +23,18 @@ app.use(express.json());
 //     origin:["https://augfishtank.herokuapp.com"]
 // }))
 
-//DEV CORS
-// app.use(cors())
+// DEV CORS
+app.use(cors())
 
 app.use('/',allRoutes);
 
 //turn to false to NOT rebuild models 
-db.sequelize.sync({ force: true }).then(function() {
+db.sequelize.sync({ force: false }).then(function() {
     app.listen(PORT, function() {
     console.log('App listening on PORT ' + PORT);
     });
 });
+
+// TODO
+//add checkAuth to own file and import it
+//left off at: 

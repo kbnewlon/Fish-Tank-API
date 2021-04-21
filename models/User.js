@@ -2,7 +2,11 @@ const bcrypt = require("bcrypt");
 
 module.exports = function (sequelize, DataTypes) {
     var User = sequelize.define('User', {
-        name: DataTypes.STRING,
+        name: {
+            type: DataTypes.STRING,
+            // require: true
+            //dont forget to take this out!!!!!
+        },
         email: {
             type: DataTypes.STRING,
             unique: true
@@ -17,7 +21,7 @@ module.exports = function (sequelize, DataTypes) {
     };
 
     //uses bcrypt to encrypt password using auto generated salt 
-    User.beforeCreate(function (user){
+    User.beforeCreate(function (user) {
         user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10), null);
     });
 
