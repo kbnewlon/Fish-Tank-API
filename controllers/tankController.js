@@ -28,26 +28,30 @@ const checkAuthStatus = request => {
 
 
 router.get("/", (req, res) => (
-    db.Tank.findAll().then(tanks=>{
+    db.Tank.findAll().then(tanks => {
         res.json(tanks);
-    }).catch(err=>{
+    }).catch(err => {
         console.log(err);
         res.status(500).send("something went wrong")
     })
 ))
 
 
-router.post("/", (req, res) => (
+router.post("/", (req, res) => {
+    const loggedInUser = checkAuthStatus(req);
+    if (!loggedInUser) {
+        return res.status(401).send("login first please")
+    }
     db.Tank.create({
         name: req.body.name,
-        Id:1
-    }).then(newTank=>{
+        UserId: loggedInUser.id
+    }).then(newTank => {
         res.json(newTank);
-    }).catch(err=>{
+    }).catch(err => {
         console.log(err);
         res.status(500).send("something went wrong")
     })
-))
+})
 
 
 

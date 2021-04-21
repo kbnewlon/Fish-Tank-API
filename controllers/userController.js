@@ -37,12 +37,12 @@ router.get("/", (req, res) => {
     })
 })
 
-router.post("/", (req, res) => {
+router.post('/',(req,res)=>{
     db.User.create({
-        email: req.body.email,
-        name: req.body.name,
-        password: req.body.password
-    }).then(newUser => {
+        email:req.body.email,
+        name:req.body.name,
+        password:req.body.password
+    }).then(newUser=>{
         res.json(newUser);
     }).catch(err => {
         console.log(err);
@@ -78,14 +78,26 @@ router.post("/login", (req, res) => {
     })
 })
 
-router.get("/secrets", (req, res) => {
+router.get("/secretProfile", (req, res) => {
     const loggedInUser = checkAuthStatus(req);
     console.log(loggedInUser);
-    if(!loggedInUser){
+    if (!loggedInUser) {
         return res.status(401).send("invalid token")
     }
-   res.status(200).send("valid token");
+    db.User.findOne({
+        where: {
+            id: loggedInUser.id
+        },
+        include: [db.Tank]
+    }).then(dbUser=>{
+        res.json(dbUser)
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).send("an error occurred please try again later")
+    })
 
 });
+
+
 
 module.exports = router
