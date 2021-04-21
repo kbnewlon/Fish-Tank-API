@@ -3,7 +3,8 @@ const router = express.Router();
 const db = require('../models');
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const e = require("express");
+
+
 
 const checkAuthStatus = request => {
     if (!request.headers.authorization) {
