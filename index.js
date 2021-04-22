@@ -1,6 +1,4 @@
 // Express Template 
-
-
 var express = require('express');
 require("dotenv").config();
 // Sets up the Express App
@@ -37,4 +35,3 @@ db.sequelize.sync({ force: false }).then(function() {
 
 // TODO
 //add checkAuth to own file and import it
-//left off at: 

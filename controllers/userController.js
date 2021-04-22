@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken");
 
 
 const checkAuthStatus = request => {
+    console.log(request.headers);
     if (!request.headers.authorization) {
         return false
     }
@@ -15,7 +16,7 @@ const checkAuthStatus = request => {
     console.log(token);
 
     //once the token is received jwt will verify it 
-    const loggedInUser = jwt.verify(token, 'secretString', (err, data) => {
+    const loggedInUser = jwt.verify(token, process.env.JWT_SECRET, (err, data) => {
         if (err) {
             return false
         }
@@ -67,7 +68,7 @@ router.post("/login", (req, res) => {
                 name: foundUser.name
             }
             //creates unique token
-            const token = jwt.sign(userTokenInfo, "secretString", { expiresIn: "2h" })
+            const token = jwt.sign(userTokenInfo, process.env.JWT_SECRET, { expiresIn: "2h" })
             res.status(200).send({ token: token })
         } else {
             return res.status(403).send("wrong password")

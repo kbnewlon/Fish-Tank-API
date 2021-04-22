@@ -13,7 +13,7 @@ const checkAuthStatus = request => {
     console.log(token);
 
     //once the token is received jwt will verify it 
-    const loggedInUser = jwt.verify(token, 'secretString', (err, data) => {
+    const loggedInUser = jwt.verify(token, process.env.JWT_SECRET, (err, data) => {
         if (err) {
             return false
         }
